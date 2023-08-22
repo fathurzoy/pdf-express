@@ -123,9 +123,102 @@ const imageBuff = async (pathImage) => {
 };
 
 // Endpoint to generate the PDF with the table and watermark
-app.post("/generate-pdf", async (req, res) => {
+app.get("/generate-pdf", async (req, res) => {
   try {
-    const datax = req.body;
+    const teh = {
+      date: "11-09-2023",
+      time: "11:20",
+      terminal_id: " 9360000202104614723 - MCN",
+      amount: 20000,
+      tipe_trx: "EDC",
+      cpan: "044201015718507 - Andrew",
+      status: "sale",
+    };
+    const datax = {
+      data: [
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+        teh,
+      ],
+    };
     const dataq = datax.data;
     console.log(datax);
 
@@ -279,112 +372,75 @@ app.post("/generate-pdf", async (req, res) => {
         });
       }
     });
+
+    const imageSale2 = await Jimp.read(
+      path.join(__dirname, "assets/images/sale.png")
+    );
+    const imageSale = await imageSale2.getBufferAsync(Jimp.MIME_PNG);
+
+    const logox = await Jimp.read(
+      path.join(__dirname, "assets/images/logo_bri_ss.png")
+    );
+    const briLogo = await logox.getBufferAsync(Jimp.MIME_PNG);
+
     dataBodyTable.push(totalRow);
     let pageCount = 1;
     let { pageSize } = doc.internal;
     let pageHeight = pageSize.height;
     const totalPagesExp = "{total_pages_count_string}";
-    doc.autoTable({
-      // startY: heightSubHeaders * 1.3 + paddingPage.y,
-      // margin: { top: 40 },
-      // theme: "striped",
-      // showHead: "everyPage",
-      // columnStyles: {
-      //   0: { cellWidth: 60 },
-      //   1: { cellWidth: 50 },
-      //   2: { cellWidth: 70 },
-      //   3: { cellWidth: 50 },
-      //   4: { cellWidth: 40 },
-      //   5: { cellWidth: 55 },
-      //   6: { cellWidth: 60 },
-      // },
-      didDrawCell: async (dataq) => {
-        if (
-          dataq.column.index === 6 &&
-          dataq.cell.section === "body" &&
-          dataq?.cell?.text[0]?.length > 0
-        ) {
-          const dim = dataq.cell.height - dataq.cell.padding("vertical");
-          const textPos = dataq.cell;
-          // const img = new Image();
-          // if (dataq.cell.text[0].toLowerCase() === 'sale') {
-          //   img.src = '/icon/sale.png';
-          // }
-          // if (dataq.cell.text[0].toLowerCase() === 'void') {
-          //   img.src = '/icon/void.png';
-          // }
-          // if (dataq.cell.text[0].toLowerCase() === 'refund') {
-          //   img.src = '/icon/refund.png';
-          // }
-          // doc.addImage(img.src, textPos.x + 20, textPos.y + 4, 22, 10);
-          if (dataq.cell.text[0].toLowerCase() === "sale") {
-            const logoPath = path.join(__dirname, "assets/images/sale.png");
-            const image = await Jimp.read(logoPath);
-            const imageBuffer = await image.getBufferAsync(Jimp.MIME_PNG);
-            doc.addImage(
-              imageBuffer,
-              "PNG",
-              textPos.x + 20,
-              textPos.y + 4,
-              22,
-              10
-            );
-          }
-          if (dataq.cell.text[0].toLowerCase() === "void") {
-            const logoPath = path.join(__dirname, "assets/images/void.png");
-            const image = await Jimp.read(logoPath);
-            const imageBuffer = await image.getBufferAsync(Jimp.MIME_PNG);
-            doc.addImage(
-              imageBuffer,
-              "PNG",
-              textPos.x + 20,
-              textPos.y + 4,
-              22,
-              10
-            );
-          }
-          if (dataq.cell.text[0].toLowerCase() === "refund") {
-            const logoPath = path.join(__dirname, "assets/images/refund.png");
-            const image = await Jimp.read(logoPath);
-            const imageBuffer = await image.getBufferAsync(Jimp.MIME_PNG);
-            doc.addImage(
-              imageBuffer,
-              "PNG",
-              textPos.x + 20,
-              textPos.y + 4,
-              22,
-              10
-            );
-          }
-        }
+    await doc.autoTable({
+      startY: heightSubHeaders + paddingPage.y + 15,
+      margin: { top: 65 },
+      theme: "striped",
+      showHead: "everyPage",
+      columnStyles: {
+        0: { cellWidth: 60 },
+        1: { cellWidth: 50 },
+        2: { cellWidth: 70 },
+        3: { cellWidth: 50 },
+        4: { cellWidth: 40 },
+        5: { cellWidth: 55 },
+        6: { cellWidth: 60 },
       },
       didDrawPage: async (dataq) => {
-        // Construct the absolute path to the image file
-        const logoPath = path.join(__dirname, "assets/images/logo_bri_ss.png");
-        // Read the image file using Jimp
-        const image = await Jimp.read(logoPath);
-        // Add the image (logo) to the PDF as PNG format
-        const imageBuffer = await image.getBufferAsync(Jimp.MIME_PNG);
-        doc.addImage(
-          imageBuffer,
-          "PNG",
-          paddingPage.x,
-          paddingPage.y * 2,
-          45,
-          15
-        );
-
         // Header
         doc.setFontSize(20);
         doc.setTextColor(40);
         doc.text("Laporan Transaksi", 325, 15);
         doc.setLineJoin(1);
         doc.line(15, 30, 400, 30);
+        doc.addImage(briLogo, "PNG", paddingPage.x, paddingPage.y * 2, 45, 15);
 
-        // logoTarget.push({ x: paddingPage.x, y: paddingPage.y * 2 });
-
+        // doc.addImage(
+        //   logo.path,
+        //   paddingPage.x,
+        //   paddingPage.y * 2,
+        //   logo.size.width,
+        //   logo.size.height,
+        // );
         // subheader1
         doc.setFontSize(fontSizeSubHeader);
+        let heightLeftSubHeaders = heightHeaders;
+        subHeadersLeft.forEach((subHeader, i) => {
+          const height =
+            (fontSizeSubHeader - fontSizeSubHeader / 2) * (i + 1) +
+            heightHeaders +
+            paddingPage.y * 2;
+          heightLeftSubHeaders = height;
+          if (subHeader.position == "right") {
+            doc.text(subHeader.value, paddingPage.x, height, {
+              align: subHeaders.position,
+              lineHeight,
+            });
+          } else {
+            const textWidth = doc.getTextWidth(subHeader.value);
+            doc.text(
+              subHeader.value,
+              size.width - textWidth - paddingPage.x,
+              height
+            );
+          }
+        });
         // subheader2
         doc.setFontSize(fontSizeSubHeader);
         let heightSubHeaders = heightHeaders;
@@ -431,36 +487,78 @@ app.post("/generate-pdf", async (req, res) => {
           },
         })),
       ],
+      didDrawCell: async (dataq) => {
+        if (
+          dataq.column.index === 6 &&
+          dataq.cell.section === "body" &&
+          dataq?.cell?.text[0]?.length > 0
+        ) {
+          const dim = dataq.cell.height - dataq.cell.padding("vertical");
+          const textPos = dataq.cell;
+
+          // const img = new Image();
+          // if (dataq.cell.text[0].toLowerCase() === 'sale') {
+          //   img.src = '/icon/sale.png';
+          // }
+          // if (dataq.cell.text[0].toLowerCase() === 'void') {
+          //   img.src = '/icon/void.png';
+          // }
+          // if (dataq.cell.text[0].toLowerCase() === 'refund') {
+          //   img.src = '/icon/refund.png';
+          // }
+          // doc.addImage(img.src, textPos.x + 20, textPos.y + 4, 22, 10);
+          console.log(dataq.cell.text[0].toLowerCase());
+          if (dataq.cell.text[0].toLowerCase() === "sale") {
+            doc.addImage(
+              imageSale,
+              "PNG",
+              textPos.x + 16,
+              textPos.y + 4,
+              22,
+              10
+            );
+          }
+          // if (dataq.cell.text[0].toLowerCase() === "void") {
+          //   const logoPath = path.join(__dirname, "assets/images/void.png");
+          //   const image = await Jimp.read(logoPath);
+          //   const imageBuffer = await image.getBufferAsync(Jimp.MIME_PNG);
+          //   doc.addImage(
+          //     imageBuffer,
+          //     "PNG",
+          //     textPos.x + 20,
+          //     textPos.y + 4,
+          //     22,
+          //     10
+          //   );
+          // }
+          // if (dataq.cell.text[0].toLowerCase() === "refund") {
+          //   const logoPath = path.join(__dirname, "assets/images/refund.png");
+          //   const image = await Jimp.read(logoPath);
+          //   const imageBuffer = await image.getBufferAsync(Jimp.MIME_PNG);
+          //   doc.addImage(
+          //     imageBuffer,
+          //     "PNG",
+          //     textPos.x + 20,
+          //     textPos.y + 4,
+          //     22,
+          //     10
+          //   );
+          // }
+        }
+      },
+
       body: dataBodyTable,
     });
 
-    for (let index = 0; index < logoTarget.length; index++) {
-      if (index > 0) {
-        console.log(logoTarget[index].x);
-        console.log(logoTarget[index].y);
-        // Construct the absolute path to the image file
-        const logoPath = path.join(__dirname, "assets/images/logo_bri_ss.png");
-        // Read the image file using Jimp
-        const image = await Jimp.read(logoPath);
-        // Add the image (logo) to the PDF as PNG format
-        const imageBuffer = await image.getBufferAsync(Jimp.MIME_PNG);
-        doc.addImage(
-          imageBuffer,
-          "PNG",
-          logoTarget[index].x,
-          logoTarget[index].y,
-          45,
-          15
-        );
-      }
-    }
+    const logoPaths = path.join(__dirname, "assets/images/logo_bri_ss.png");
+    const images = await Jimp.read(logoPaths);
 
     if (typeof doc.putTotalPages === "function") {
       doc.putTotalPages(totalPagesExp);
     }
 
     // Get the binary PDF data as a Uint8Array
-    const pdfData = doc.output("arraybuffer");
+    const pdfData = await doc.output("arraybuffer");
     // const pdfPath = "./output.pdf";
     // doc.save(pdfPath);
 
@@ -484,7 +582,6 @@ app.post("/generate-pdf", async (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
-
 
 // body
 // {

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -19,6 +19,7 @@
     "jimp": "^0.22.10",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.5.31",
-    "node-fetch": "^2.6.12"
+    "node-fetch": "^2.6.12",
+    "nodemon": "^3.0.1"
   }
 }
